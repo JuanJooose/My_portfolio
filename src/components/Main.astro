@@ -1,0 +1,54 @@
+---
+import { linkForId } from "../data/dataForkLinks.astro";
+import CanIOffer from "./CanIOffer.astro";
+import Presentation from "./Presentation.astro";
+---
+
+<script>
+    const sections = document.querySelectorAll("section");
+    const navSections = document.querySelectorAll("#nav-ul li");
+
+    const sectionObserver = new IntersectionObserver(
+        (entrie) => {
+            entrie.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const entryId = entry.target.getAttribute("id");
+                    navSections.forEach((item, i) => {
+                        if (
+                            item.getAttribute("id")?.slice(0, -1) ===
+                            `${entryId}`
+                        ) {
+                            item.classList.add("bg-fourd", "scale-[1.25]");
+                        } else {
+                            item.classList.remove("bg-fourd", "scale-[1.25]");
+                        }
+                    });
+                }
+            });
+        },
+        { threshold: 0.5 },
+    );
+
+    sections.forEach((section) => sectionObserver.observe(section));
+</script>
+
+<main class="bg-gradient-to-t to-fiveth from-black">
+    <section id={linkForId.start} class="">
+        <Presentation />
+    </section>
+    <section id={linkForId.experience}>
+        <CanIOffer />
+    </section>
+    <section id={linkForId.technologies}></section>
+    <section id={linkForId.projects}></section>
+</main>
+
+<style>
+    section {
+        scroll-snap-align: start;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100dvh;
+    }
+</style>

@@ -1,0 +1,61 @@
+---
+import {  navegation } from "../data/dataForkLinks.astro";
+---
+
+<script>
+    import { animate, stagger } from "motion";
+
+    const navHeader = document.querySelectorAll("#nav");
+    const liItems = document.querySelectorAll("#nav-ul li");
+
+    document
+        .querySelectorAll<HTMLAnchorElement>("#nav-ul li")
+        .forEach((aLink) => {
+            aLink.addEventListener("click", (e: MouseEvent) => {
+                e.preventDefault();
+                const target = e.currentTarget as HTMLAnchorElement;
+                const targetId = target.getAttribute("id")?.slice(0, -1);
+                const targetElement = document.getElementById(targetId || "");
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+                }
+            });
+        });
+
+    animate(
+        navHeader,
+        { y: [window.innerHeight, 0] },
+        {
+            duration: 1,
+            onComplete: () => {
+                animate(liItems, { opacity: [0, 1] }, { duration: 1, delay: stagger(0.15) });
+            },
+        },
+    );
+</script>
+
+<header
+    class="fixed z-40 flex flex-col items-center justify-center w-full mt-auto h-max bottom-10"
+>
+    <nav id="nav" class="relative">
+        <ul
+            id="nav-ul"
+            class="flex items-center justify-center gap-5 px-6 py-3 before:rounded-2xl before:bg-white/35 before:blur-[2px] before:content-[''] before:inset-0 before:absolute"
+        >
+            {
+                navegation.map((item, i) => (
+                    <li
+                        id={item.sectionName + i}
+                        class={`hover:bg-fourd hover:scale-[1.25] z-10 hover:cursor-pointer transition opacity-0 duration-300 p-2 rounded-lg text-white`}
+                    >
+                        <item.icon  />
+                    </li>
+                ))
+            }
+        </ul>
+    </nav>
+</header>

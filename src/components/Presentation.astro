@@ -1,0 +1,46 @@
+---
+import { linksSocialMedia } from "../data/dataForkLinks.astro";
+import { AnimationForType } from "./react/AnimationForType.tsx";
+---
+
+<script>
+    import { animate, stagger } from "motion";
+
+    const navSectionOne = document.querySelectorAll("#nav-SectionOne a");
+
+    animate(
+        navSectionOne,
+        { x: [50, 0], opacity: 1 },
+        { delay: stagger(0.5), duration: 1 },
+    );
+</script>
+
+<div class="bg-white/15 max-w-screen-lg w-[100%] p-10 rounded-lg">
+    <div class="flex flex-col gap-6">
+        <h1 class="text-7xl font-bold text-white">Hola, Soy Juan</h1>
+        <AnimationForType client:load />
+        <nav
+            id="nav-SectionOne"
+            class="flex gap-4 w-full m-auto justify-between items-center"
+        >
+            <div>
+                <p class="text-fourd font-semibold text-xl">
+                    Correo<span class="block font-thin text-white"
+                        >juanbsnss@gmail.com</span>
+                </p>
+            </div>
+            <div class="flex gap-4">
+                {
+                    linksSocialMedia.map((item) => (
+                        <a
+                            href={`${item.Url}`}
+                            class="hover:border-fourd border-white border-2 opacity-0 bg-secondary p-2 my-2 rounded-3xl text-white hover:text-fourd"
+                        >
+                            <item.icon />
+                        </a>
+                    ))
+                }
+            </div>
+        </nav>
+    </div>
+</div>
